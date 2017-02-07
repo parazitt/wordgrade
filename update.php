@@ -44,12 +44,25 @@ function unzip($archive, $dst){
         $zip->close();
     }
 }
-$files = ['wp-includes', 'wp-comments-post.php', 'wp-signup.php', 'wp-login.php', 'wp-blog-header.php', 'wp-config-sample.php', 'xmlrpc.php', 'license.txt', 'wp-load.php', 'wp-mail.php', 'wp-admin', 'wp-cron.php', 'index.php', 'wp-trackback.php', 'wp-settings.php',  'wp-links-opml.php', 'wp-activate.php',"wp-content/languages"];
+
+
+$files = ['wp-includes', 'wp-comments-post.php', 'wp-signup.php',
+          'wp-login.php', 'wp-blog-header.php', 'wp-config-sample.php',
+          'xmlrpc.php', 'license.txt', 'wp-load.php', 'wp-mail.php',
+          'wp-admin', 'wp-cron.php', 'index.php', 'wp-trackback.php',
+          'wp-settings.php',  'wp-links-opml.php', 'wp-activate.php',
+          "wp-content/languages"];
+
+
+
 foreach ($files as $file){
     rmRf($file);
 }
-//cpRf("bar/Idb.php","./iiiiii");
+
 unzip("wordpress-4.7.2-fa_IR.zip", "./");
+
 foreach($files as $file){
     cpRf("wordpress/".$file, "./".$file);
 }
+
+rmRf("wordpress");
