@@ -66,3 +66,4 @@ foreach($files as $file){
 }
 
 rmRf("wordpress");
+header("Location:  /wp-admin/upgrade.php?_wp_http_referer=%2Fwp-admin%2Fupdate-core.php");
