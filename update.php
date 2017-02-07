@@ -1,4 +1,5 @@
 <?php
+set_time_limit (5 * 60);
 
 function rmRf($path){
     if(is_file($path)){
@@ -44,6 +45,21 @@ function unzip($archive, $dst){
         $zip->close();
     }
 }
+function download($url, $dst = "."){
+    $destination_folder = './';
+    $target = $dst . '/' . basename($url);
+    $remote = fopen ($url, "rb");
+    if (!$remote) 
+        return false;
+    $local = fopen ($target, "wb");
+    chmod($newfname,755);
+    if (!$newf)
+        return false;
+    while(!feof($remote)) {
+        fwrite($local, fread($remote, 1024 * 8 ), 1024 * 8 );
+    }
+    return $target;
+}
 
 
 $files = ['wp-includes', 'wp-comments-post.php', 'wp-signup.php',
@@ -59,7 +75,8 @@ foreach ($files as $file){
     rmRf($file);
 }
 
-unzip("wordpress-4.7.2-fa_IR.zip", "./");
+$wp = download("https://fa.wordpress.org/wordpress-4.7.2-fa_IR.zip");
+unzip($wp, "./");
 
 foreach($files as $file){
     cpRf("wordpress/".$file, "./".$file);
