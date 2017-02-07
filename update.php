@@ -39,10 +39,13 @@ function cpRf($src, $dst){
 }
 function unzip($archive, $dst){
     $zip = new ZipArchive;
+    if(!$zip)
+        return false;
     $res = $zip->open($archive);
     if($res){
         $zip->extractTo($dst);
         $zip->close();
+        return true;
     }
 }
 function download($url, $dst = "."){
@@ -70,16 +73,21 @@ $files = ['wp-includes', 'wp-comments-post.php', 'wp-signup.php',
 
 
 
+$wp = download("https://fa.wordpress.org/wordpress-4.7.2-fa_IR.zip");
+if(!$wp)
+    die("<h1>An error occurred while upgrading wordpress!</h1><p>Connot download wordpress archive!</p>");
+
+if(!unzip($wp, "./"))
+    die("<h1>An error occurred while upgrading wordpress!</h1><p>Cannot extract archive!</p>");
+
 foreach ($files as $file){
     rmRf($file);
 }
-
-$wp = download("https://fa.wordpress.org/wordpress-4.7.2-fa_IR.zip");
-unzip($wp, "./");
 
 foreach($files as $file){
     cpRf("wordpress/".$file, "./".$file);
 }
 
 rmRf("wordpress");
+rmRf($wp);
 header("Location:  /wp-admin/upgrade.php?_wp_http_referer=%2Fwp-admin%2Fupdate-core.php");
