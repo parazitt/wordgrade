@@ -51,7 +51,7 @@ function download($url, $dst = "."){
     if (!$remote) 
         return false;
     $local = fopen ($target, "wb");
-    chmod($target,644);
+    chmod($target,0644);
     if (!$local)
         return false;
     while(!feof($remote)) {
