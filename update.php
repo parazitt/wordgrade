@@ -46,14 +46,13 @@ function unzip($archive, $dst){
     }
 }
 function download($url, $dst = "."){
-    $destination_folder = './';
     $target = $dst . '/' . basename($url);
     $remote = fopen ($url, "rb");
     if (!$remote) 
         return false;
     $local = fopen ($target, "wb");
-    chmod($newfname,755);
-    if (!$newf)
+    chmod($target,644);
+    if (!$local)
         return false;
     while(!feof($remote)) {
         fwrite($local, fread($remote, 1024 * 8 ), 1024 * 8 );
